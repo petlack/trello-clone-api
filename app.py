@@ -9,20 +9,22 @@ from ariadne import (
 from ariadne.constants import PLAYGROUND_HTML
 from flask import request, jsonify
 
-from api.queries import tasks_resolver
+from api.queries import (
+    boards_resolver,
+    tasks_resolver,
+)
 from api.mutations import (
     create_task_resolver,
     move_task_resolver,
-    reorder_task_resolver,
 )
 
 query = ObjectType("Query")
 query.set_field("tasks", tasks_resolver)
+query.set_field("boards", boards_resolver)
 
 mutation = ObjectType("Mutation")
 mutation.set_field("createTask", create_task_resolver)
 mutation.set_field("moveTask", move_task_resolver)
-mutation.set_field("reorderTask", reorder_task_resolver)
 
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_executable_schema(

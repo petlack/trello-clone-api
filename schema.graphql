@@ -3,18 +3,26 @@ schema {
     mutation: Mutation
 }
 
+type Board {
+  id: String
+  title: String
+  tasks: [Task]
+}
+
 type Task {
   id: String
   description: String
   badge: String
+  position: Int
+  board: Board
 }
 
 type Query {
   tasks: [Task!]!
+  boards: [Board!]!
 }
 
 type Mutation {
-  createTask(description: String!, badge: String!): Task
-  moveTask(id: String!, column: String!): Task
-  reorderTask(id: String!, position: Int!): Task
+  createTask(boardId: String!, description: String!, badge: String!): Task
+  moveTask(boardId: String!, taskId: String!, position: Int!): Task
 }

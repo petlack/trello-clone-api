@@ -1,26 +1,15 @@
 from ariadne import convert_kwargs_to_snake_case
+from .db import (
+    create_task,
+    move_task,
+)
 
 @convert_kwargs_to_snake_case
-def create_task_resolver(obj, info, description, badge):
-    payload = {
-        "id": "999",
-        "description": description,
-        "badge": badge,
-    }
+def create_task_resolver(obj, info, board_id, description, badge):
+    payload = create_task(board_id, description, badge)
     return payload
 
 @convert_kwargs_to_snake_case
-def move_task_resolver(obj, info, id, column):
-    payload = {
-        "id": id,
-        "column": column,
-    }
-    return payload
-
-@convert_kwargs_to_snake_case
-def reorder_task_resolver(obj, info, id, position):
-    payload = {
-        "id": id,
-        "position": position,
-    }
+def move_task_resolver(obj, info, board_id, task_id, position):
+    payload = move_task(board_id, task_id, position)
     return payload
