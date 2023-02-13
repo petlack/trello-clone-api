@@ -1,0 +1,20 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Task {
+  id: String
+  description: String
+  badge: String
+}
+
+type Query {
+  tasks: [Task!]!
+}
+
+type Mutation {
+  createTask(description: String!, badge: String!): Task
+  moveTask(id: String!, column: String!): Task
+  reorderTask(id: String!, position: Int!): Task
+}

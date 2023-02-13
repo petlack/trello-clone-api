@@ -1,0 +1,3 @@
+ariadne
+flask
+flask-cors
