@@ -1,7 +1,7 @@
 # Trello clone API
 
 ## Features
-- ⚙ Python, Ariadne, Flask
+- ⚙ Python, [Ariadne](https://ariadnegraphql.org/), [Flask](https://flask.palletsprojects.com/en/2.2.x/)
 - 📝 GraphQL
 - 📚 In-Memory database
 - 🔓 CORS enabled
