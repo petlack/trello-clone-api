@@ -1,3 +1,6 @@
+import time 
+import random
+
 from api import app
 from ariadne import (
     load_schema_from_path,
@@ -44,6 +47,12 @@ def graphql_playground():
 @app.route("/graphql", methods=["POST"])
 def graphql_server():
     data = request.get_json()
+
+    time.sleep(2 * random.random());
+    prob = 5 if data['operationName'] == 'BoardsQuery' else 1
+    if random.randint(0, prob) == 0:
+        return jsonify({ "data": None, "errors": ["Unexpected error"] }), 200
+    
     success, result = graphql_sync(
         schema,
         data,
