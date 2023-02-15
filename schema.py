@@ -10,6 +10,7 @@ from api.queries import (
     tasks_resolver,
     timestamp_resolver,
 )
+
 from api.mutations import (
     create_task_resolver,
     move_task_resolver,

@@ -12,9 +12,9 @@ type Board {
 type Task {
   id: String!
   description: String!
-  badge: String
   position: Int!
   board: Board!
+  badge: String
 }
 
 type Query {
