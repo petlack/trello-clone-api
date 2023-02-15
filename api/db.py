@@ -43,11 +43,17 @@ def find_board_tasks(board_id):
 
 def eager_find_all_boards():
     global db_boards
-    return [{**board, 'tasks': find_board_tasks(board['id']) } for board in db_boards]
+    return [{
+        **board,
+        'tasks': find_board_tasks(board['id']),
+    } for board in db_boards]
 
 def eager_find_all_tasks():
     global db_tasks
-    return [{**task, 'board': find_board(task['board_id']) } for task in db_tasks]
+    return [{
+        **task,
+        'board': find_board(task['board_id']),
+    } for task in db_tasks]
 
 def create_board(title):
     global db_boards
@@ -86,8 +92,17 @@ def create_task(board_id, description, badge):
 
 def move_task(board_id, task_id, position):
     task = find_task(task_id)
-    old_board_tasks = sorted(filter(lambda rec: rec['id'] != task_id, find_board_tasks(task['board_id'])), key=lambda rec: rec['position'])
-    new_board_tasks = sorted(find_board_tasks(board_id), key=lambda rec: rec['position'])
+    old_board_tasks = sorted(
+        filter(
+            lambda rec: rec['id'] != task_id,
+            find_board_tasks(task['board_id']),
+        ),
+        key=lambda rec: rec['position'],
+    )
+    new_board_tasks = sorted(
+        find_board_tasks(board_id),
+        key=lambda rec: rec['position'],
+    )
 
     for pos, t in enumerate(old_board_tasks):
         t['position'] = pos
@@ -107,7 +122,13 @@ def move_task(board_id, task_id, position):
 def delete_task(task_id):
     global db_tasks
     task = find_task(task_id)
-    old_board_tasks = sorted(filter(lambda rec: rec['id'] != task_id, find_board_tasks(task['board_id'])), key=lambda rec: rec['position'])
+    old_board_tasks = sorted(
+        filter(
+            lambda rec: rec['id'] != task_id,
+            find_board_tasks(task['board_id']),
+        ),
+        key=lambda rec: rec['position'],
+    )
     for pos, t in enumerate(old_board_tasks):
         t['position'] = pos
     db_tasks = [t for t in db_tasks if t['id'] != task_id]
