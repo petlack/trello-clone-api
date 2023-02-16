@@ -1,9 +1,9 @@
 import time 
 import random
 
-from api import app
-from schema import schema
-from ariadne import graphql_sync
+from api.app import app
+from handler import handle_graphql_request
+
 from ariadne.constants import PLAYGROUND_HTML
 from flask import request, jsonify
 
@@ -20,12 +20,12 @@ def graphql_server():
     if random.randint(0, prob) == 0:
         return jsonify({ "data": None, "errors": ["Unexpected error"] }), 200
     
-    success, result = graphql_sync(
-        schema,
+    result, status_code = handle_graphql_request(
         data,
         context_value=request,
-        debug=app.debug
-    )
+        debug=app.debug,
     
-    status_code = 200 if success else 400
+    )
     return jsonify(result), status_code
+    
+
