@@ -1,4 +1,4 @@
-name: Deploy to ECR
+name: Deploy to AWS Lambda
 
 on:
   push:
@@ -27,8 +27,11 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
-        IMAGE_TAG: ${{ vars.CONTAINER_NAME }}
+        ECR_REPOSITORY: ${{ vars.AWS_ECR_REPOSITORY_NAME }}
+        IMAGE_TAG: ${{ github.sha }}
+        REGION: ${{ vars.AWS_REGION }}
+        FUNCTION_NAME: ${{ vars.AWS_FUNCTION_NAME }}
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        aws lambda update-function-code --region $REGION --function-name $FUNCTION_NAME --image-uri $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
